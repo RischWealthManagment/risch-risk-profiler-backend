@@ -1,10 +1,9 @@
-const pdf = require("html-pdf");
 const path = require("path");
-const nodemailer = require("nodemailer");
+let nodemailer = require("nodemailer");
 const fs = require("fs");
-const pdfTemplate = require("../documents/document");
 const env = require("dotenv");
 const ejs = require("ejs");
+const puppeteer = require("puppeteer");
 env.config();
 
 const pdfCtrl = {
@@ -15,16 +14,23 @@ const pdfCtrl = {
     //   format: "Letter",
     // };
     const ejsData = ejs.render(htmlString, req.body);
-    pdf.create(ejsData).toFile(`portfolio2.pdf`, (err) => {
-      if (err) {
-        console.log(err);
-      }
+    puppeteer.launch().then(async (browser) => {
+      const page = await browser.newPage();
+
+      await page.setContent(ejsData);
+
+      const pdf = await page.pdf({ format: "A4", printBackground: true });
+
+      fs.writeFileSync("output.pdf", pdf);
+
+      await browser.close();
+
       console.log(req.body);
       res.send("pdf generated");
     });
   },
   sendPdf: (req, res) => {
-    pathToAttachment = path.join(__dirname, "../portfolio2.pdf");
+    pathToAttachment = path.join(__dirname, "../output.pdf");
     attachment = fs.readFileSync(pathToAttachment).toString("base64");
 
     let smtpTransport = nodemailer.createTransport({
