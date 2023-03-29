@@ -39,10 +39,10 @@ const pdfCtrl = {
       port: 465,
       secure: true,
       auth: {
-        user: process.env.USER,
-        pass: process.env.PASSWORD,
+        user: process.env.SES_USER,
+        pass: process.env.SES_PASSWORD,
       },
-      tls: { rejectUnauthorized: false },
+      debug: true,
     });
 
     smtpTransport.sendMail(
