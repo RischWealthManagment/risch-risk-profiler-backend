@@ -34,8 +34,7 @@ const pdfCtrl = {
     attachment = fs.readFileSync(pathToAttachment).toString("base64");
 
     let smtpTransport = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      service: "Gmail",
+      host: "email-smtp.us-east-1.amazonaws.com",
       port: 465,
       secure: true,
       auth: {
