@@ -10,9 +10,6 @@ const pdfCtrl = {
   createPdf: (req, res) => {
     const filePathName = path.resolve(__dirname, "../views/pdf-template.ejs");
     const htmlString = fs.readFileSync(filePathName).toString();
-    // let options = {
-    //   format: "Letter",
-    // };
     const ejsData = ejs.render(htmlString, req.body);
     puppeteer.launch().then(async (browser) => {
       const page = await browser.newPage();
