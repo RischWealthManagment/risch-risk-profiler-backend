@@ -25,7 +25,7 @@ const pdfCtrl = {
 
       await browser.close();
 
-      console.log(req.body);
+      console.log("data:", req.body);
       res.send("pdf generated");
     });
   },
